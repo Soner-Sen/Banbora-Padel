@@ -1,0 +1,117 @@
+# ==============================================
+# SONRIZE FLUTTER STARTER - PRODUCTION GITIGNORE
+# Optimiert um KEINE sensiblen Daten zu commiten
+# ==============================================
+
+# ✅ System & Editor Dateien
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_dir/
+Thumbs.db
+*.tmp
+*.bak
+*.cache
+
+# ✅ IDEs
+*.iml
+*.ipr
+*.iws
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+*.sublime-project
+*.sublime-workspace
+
+# ✅ Flutter & Dart Standard
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+/build/
+/coverage/
+.pubignore
+pubspec.lock.*
+
+# ✅ 🚨 SENSIBLE DATEIEN - NIEMALS COMMITEN! 🚨
+.env
+.env.local
+.env.development
+.env.staging
+.env.production
+.env.*
+secrets.json
+keys.json
+*.pem
+*.key
+*.pfx
+*.jks
+*.keystore
+google-services.json
+GoogleService-Info.plist
+firebase_options.dart
+firebase.json
+*.credential
+credentials.dart
+api_keys.dart
+config_local.dart
+local.properties
+**/secrets/**
+**/keys/**
+
+# ✅ Android
+/android/app/debug
+/android/app/profile
+/android/app/release
+/android/key.properties
+/android/app/*.keystore
+/android/app/*.jks
+/android/local.properties
+/android/.gradle/
+android/gradlew
+android/gradlew.bat
+
+# ✅ iOS & macOS
+/ios/Runner/GoogleService-Info.plist
+/ios/Runner/Runner.entitlements
+/ios/Podfile.lock
+/ios/Pods/
+/ios/.symlinks/
+/macos/Runner/GoogleService-Info.plist
+/macos/Podfile.lock
+/macos/Pods/
+
+# ✅ Web
+/web/config.js
+/web/env.js
+/web/secrets.js
+
+# ✅ Symbolication & Obfuscation
+app.*.symbols
+app.*.map.json
+*.symbols.zip
+*.obf.zip
+
+# ✅ CI/CD
+codemagic.enc
+*.enc
+.encrypted
+secrets.*
+
+# ✅ CLI Tools
+.mason/cache/
+.cline/
+.fvm/
+.devtools/

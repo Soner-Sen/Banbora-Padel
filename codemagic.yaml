@@ -1,0 +1,182 @@
+# =============================================================================
+# Codemagic CI/CD Configuration
+# =============================================================================
+# This file configures the CI/CD pipeline for Codemagic
+# Documentation: https://docs.codemagic.io/yaml/getting-started/
+# =============================================================================
+
+workflows:
+  # ---------------------------------------------------------------------------
+  # iOS Workflow
+  # ---------------------------------------------------------------------------
+  ios-workflow:
+    name: iOS Build
+    max_build_duration: 60
+    environment:
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+    scripts:
+      - name: Flutter Analyze
+        script: |
+          flutter pub get
+          flutter analyze
+      - name: Run Tests
+        script: |
+          flutter test
+      - name: Build iOS
+        script: |
+          flutter build ios --simulator --no-codesign
+    artifacts:
+      - build/ios/iphonesimulator/*.app
+      - flutter_drive_log.txt
+    publishing:
+      email:
+        recipients:
+          - developer@example.com
+        notify:
+          success: true
+          failure: true
+
+  # ---------------------------------------------------------------------------
+  # Android Workflow
+  # ---------------------------------------------------------------------------
+  android-workflow:
+    name: Android Build
+    max_build_duration: 60
+    environment:
+      flutter: stable
+      java: 17
+    scripts:
+      - name: Flutter Analyze
+        script: |
+          flutter pub get
+          flutter analyze
+      - name: Run Tests
+        script: |
+          flutter test
+      - name: Build Android (Debug)
+        script: |
+          flutter build apk --debug
+      - name: Build Android (Release)
+        script: |
+          flutter build apk --release
+    artifacts:
+      - build/app/outputs/flutter-apk/*.apk
+      - flutter_drive_log.txt
+    publishing:
+      email:
+        recipients:
+          - developer@example.com
+        notify:
+          success: true
+          failure: true
+
+  # ---------------------------------------------------------------------------
+  # Full CI Workflow
+  # ---------------------------------------------------------------------------
+  full-ci-workflow:
+    name: Full CI Pipeline
+    max_build_duration: 90
+    environment:
+      flutter: stable
+      xcode: latest
+      java: 17
+    scripts:
+      # Static Analysis
+      - name: Flutter Pub Get
+        script: |
+          flutter pub get
+      - name: Flutter Analyze
+        script: |
+          flutter analyze --fatal-infos --fatal-warnings
+      - name: Dart Code Metrics
+        script: |
+          flutter pub run dart_code_metrics:metrics analyze lib/
+
+      # Testing
+      - name: Run Unit Tests
+        script: |
+          flutter test --machine | tee test_results.json
+      - name: Run Widget Tests
+        script: |
+          flutter test --tags widget
+
+      # iOS Build
+      - name: iOS Build (Simulator)
+        script: |
+          flutter build ios --simulator --no-codesign
+
+      # Android Build
+      - name: Android Build (Debug)
+        script: |
+          flutter build apk --debug
+
+    artifacts:
+      - test_results.json
+      - build/ios/iphonesimulator/*.app
+      - build/app/outputs/flutter-apk/app-debug.apk
+
+    publishing:
+      email:
+        recipients:
+          - developer@example.com
+        notify:
+          success: true
+          failure: true
+
+      slack:
+        channel: "#ci-cd"
+        notify_on:
+          success: true
+          failure: true
+
+      google_play:
+        credentials: $GCLOUD_SERVICE_ACCOUNT
+        track: internal
+        in_app_update_priority: 2
+
+  # ---------------------------------------------------------------------------
+  # Release Workflow
+  # ---------------------------------------------------------------------------
+  release-workflow:
+    name: Release Build
+    max_build_duration: 120
+    triggering:
+      events:
+        - tag
+      tag_patterns:
+        - "v*"
+    environment:
+      flutter: stable
+      xcode: latest
+      java: 17
+    scripts:
+      - name: Flutter Pub Get
+        script: |
+          flutter pub get
+      - name: Run Tests
+        script: |
+          flutter test
+      - name: iOS Build (Release)
+        script: |
+          flutter build ios --release
+      - name: Android Build (Release)
+        script: |
+          flutter build apk --release
+    artifacts:
+      - build/ios/iphoneos/*.ipa
+      - build/app/outputs/flutter-apk/app-release.apk
+
+    publishing:
+      app_store_connect:
+        auth: $APP_STORE_CONNECT_KEY
+
+      google_play:
+        credentials: $GCLOUD_SERVICE_ACCOUNT
+        track: production
+
+      github_release:
+        release: true
+        artifacts:
+          - build/app/outputs/flutter-apk/app-release.apk

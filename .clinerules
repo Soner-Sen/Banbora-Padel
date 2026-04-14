@@ -1,0 +1,395 @@
+## Architecture North Star
+This project should evolve toward a release-ready, modular, featurefirst Flutter architecture with:
+- clear functional boundaries
+- real module ownership per feature
+- strong separation of concerns
+- Clean Architecture-inspired layering 
+- Cubit-based presentation state management (like Felix Angelov himself would implement the Cubit and the testing) 
+- offline/persistence/sync treated as first-class architecture concerns 
+- strong testing + CI/CD discipline (Code Magic) 
+- long term maintainability over short term convenience 
+
+The system should be easy to:
+- navigate
+- reason about
+- test in isolation
+- release safely
+- scale across features and teams. 
+- no comments needed, only if it's really necessary
+
+## Project Philosophy 
+1. Feature-First over Layer-First
+Organize code primarily by feature not by technical type across the whole app. 
+Why:
+- reduces codebase jumping
+- kepps related code close together
+- supports stronger feature ownership
+- improves onboarding and change isolation
+- scales better for product development 
+
+within each feature, keep layer separation explicit. 
+- feature first at top level
+- layered inside each fueature. 
+
+2. Clean Code boundaries:
+Each feature should have explicit boundaries between:
+- data
+- domain
+- presentation 
+i want use use cases in this Projekt. 
+
+This is not ceremony. It is there to protect.
+Maintainability, testability, long-termm product evolution, replacement of infrastructure details without touching ui. 
+
+3. Cubits in Presentation
+State management in the presentation layer uses cubit by default. 
+Bloc may be used only when event driven complexity truly requires. 
+The Project standard is ui renders state, Cubit orchestrates presentation flow, domain contains business rules and use cases, data handles transport, persistence, mapping, and sync details. 
+
+Engineering Benchmarks:
+The project should be designed with an engineering mindset closer to serious product codebases. 
+- boundaries matter, reliability matters, ci cd matters, testability matters, offline peristence stratefy masters, releases must be safe and repeatable. 
+
+Target folder Structure:
+- lib
+- core/error,network, config, logging, analytics, monitoring, feature_flags, local_storage, testing, desgn_system 
+- feature/
+auth/data/datasources, models, dtos, mappers, repositories
+domain/entities, value_objects, repositories, usecases
+Presentation/cubit/screens/widgets
+app/app.dart router.dart di.dart bootstrap.dart
+
+ui: 
+- must not know transport details
+- must not parsew raw api payloads
+- must not contain persistence logic
+- must not contain long-lived business rules
+- should depend on domain contracts/use cases not on low level data tetails directly
+- must remain easy to widget test
+
+Cubit:
+- one cubit = one primary presentation responsibility
+- methos should represent user intent 
+- states should be immutable
+- status enum should be the single source of truth for lifecycle when applicable
+- cubit handles presentation flow, not infrastructure details. 
+
+Domain Layer:
+Contains:
+- entities, value objects, repository contracts, use cases, business rules
+Rules: 
+- keep flutter dependencides out if possible
+- model business language not api language
+- be stable and highly testable
+- avoid leaking dto or storage structure into the domain
+
+Use Case Policy:
+Use Cases are expected in this architecture. 
+However, the must be meaningful. 
+Do not create ceremonial use cases that simply forward one repository call without any architectural value unless the codebase already standardizes even simple flows that way. 
+
+Use a use case when: 
+- it captures a business action
+- it coordinates logic
+- it improves readability
+- it improves testability
+- it creates a stable application-level boundary. 
+
+Data Layer:
+Contains:
+- DTos / models,
+- remote data sources
+- local data sources
+- sync adapters
+- mappers
+- repository implementations
+
+Rules: 
+- all infrastructure lives here
+- transport/storage specifics stay here
+- repository implementation translate between domain and infrastructure
+- logging and infrastructure-level error capturte belongs here
+- local persistence and remote sync policy must be explicit here. 
+
+Data Layer Expectations:
+The data layer must be designed for:
+- unreliable networks
+- retries where appropriate
+- persistence strategy clarity
+- cache invalidation strategy clarity
+- deterministic mapping
+- safe deserialization behavior 
+
+---
+
+Core Modules Responsibilites:
+The core/ folder is for shared cross cutting capabilities not random dumping!
+Every subfolder must have a narrow purpose. 
+core/error:
+- shared error types, failure Modeling, error translation primitives, app-wide error contracts where justified
+
+core/network: 
+- http client wrappers, request building helpers, connectivity-aware abstractions if the repo uses them, shared network policies (timeout, headers, auth attachment)
+
+core/config:
+- enviroment config
+- build flavor config
+- app constants tied to enviroment/runtime
+
+core/logging:
+- structured logging abstractions
+- logger setup
+- logging sinks/adapters if needed
+
+core/analytrics
+- event tracking contracts
+- analytics adapers
+- event naming standards
+
+core/monitoring
+- crash/error monitoring integration
+- non-functional observability hooks
+
+core/feature_flags
+local/remote flags
+- rollout helpers
+- kill switch support if applicable
+
+core/local_storage/
+- shared persistence helpers, secure/löocal storage adaperts, storage serialization conventions
+
+core/testing:
+test fixtures, shareed mocks/fakes, test builders, helpers for feature/module tests
+
+core/design_systems:
+- reusable ui primitives, tokens, spacing, typography, color rules, standardized error/loading/empty/retry components
+
+Core Rules:
+- core must not become a dumping around
+- if code is used by only one feature, its belongs in that feature
+- shared code must be shared because it is truly cross-cutting not because someone wanted a utils folder. 
+
+Real module System rules: 
+treat every feature as a real module with ownership and Boundaries. 
+
+Feature Boundary Rules: 
+A feature may expose:
+- presentation entry points as needed by routing
+- domain contracts/(entities/use cases if other modules legitimately depend on them
+- carefully selected shared widgets only if the are truly reusable and belongs in a shared space 
+
+A feature must not freely reach into another featue's internals. 
+
+Forbidding Coupling:
+Do not: 
+- import another features internal data layer directly
+- reuse antoher feature private dtos models
+- depend on another feature Cubit unless explicitly designed as shared presentation logic
+- use another feature as an unofficial utility bucket. 
+
+Allowed Cross Feature Interactions:
+If features need to interact do it through:
+- domain contracts, 
+- app level routing/navigation contracts
+- shared core abstractions
+- explicit integration points. 
+==========
+
+Dependency Direction: 
+use this dependency flow as the default rule:
+- presentation => domain
+- data => domain
+- app => Features/core
+- core should stay as indendent and stable as possible
+
+Avoid!!
+- domain => presentation
+- domain => data implementation
+- feature A => Feature B internal Layers. 
+
+When a dependency must cross boundaries, prefer explicit contracts. 
+============
+Offline / Persistence / Sync Policy
+Offline behavior is an architectural decision, not an afterthought. 
+
+Every Feature that handles important user data should answer these questions explicitly:
+- What is stored locally?
+- what is cached temporarily
+- what is source of truth?
+- what happens when network is unavailable?
+- is the feature offlien-readable?
+- is the feature offline-writable?
+- is there queued sync?
+- how are conflicts resolved?
+- what invalidates cached/local data?
+
+Persistence Modes:
+Each feature should consciously choose one of these modes:
+- remote first
+- Cache assisted
+- offline-readable
+- offline-readable ü offline writable with sync
+
+do not let this happen accidentally. 
+
+===========
+Sync Rules:
+if sync exists define:
+sync trigger points, retry behavior, conflict policy, merge stratgy, iddempotency expectations, failure visibility to user. 
+
+Storage Rules:
+- local storage format should be explicit
+- mapping between local models and domain should be deterministic
+- do not hide persistence side effects in UI. 
+===========
+Release Readiness Standard:
+
+the project should be built with release discipline from the start. 
+A Feature is not done unless it is:
+- architecturally placed corrrectly 
+- localized
+- test-covered at the correct level
+- observable/loggable where relevant
+- safe under error conditions
+- consistent with navigation/state/error/loading conventions
+- ready for ci validation
+
+Release ready expectations:
+- deterministic build pipeline
+- analuzzable and testable in CI
+- enviroment config separated cleanly
+- feature flags or safe rollout strategy where needed
+- failure minitoring integrated
+- no hidden debug-only assumptions in prodction code. 
+
+Test Strategy:
+Testing is a first class architecture convern. 
+
+Test Pyramid: 
+Prefer a balanced mix of: 
+- unit tests: for domain/use cases/entities/value objects/mappers
+- cubit tests: for state flow
+- repoitory tests: for mapping + error behavior
+- widget tests: for screen behavior and state rendering 
+- integration tests for critical user Flows. 
+
+What must be easy to test:
+- domain rules
+- use causes
+- input normalization
+- mapping logic
+- repository success/failure behavior
+- cubit lifecycle and transitions
+- offline/cache behavior where applicable
+
+Testing Rules:
+- test behavior not implementation trivia
+- use fakers/buolders/fixtures from core/testing/ when helpful
+- avoid fragile tests tied to privatze implementations details
+- keep tests readable and modular. 
+
+CI/CD Standards
+Ci/CD is part of the architecture. 
+The repository should support safe, repeatable delivery. 
+Minimum CI expectations:
+every chgange should be able to run. 
+bash flutter analyze flutter test. 
+
+And where applicable: 
+- formatting validation - integration tests - coverage reporting - flavor/buold validation - artifact generation
+
+Strong CI/CD Direction:
+Prefer a pipeline that includes:
+- static analysis
+- unit/widget/integration test stages
+- build verification per target/flavor
+- release artificat validation
+- changelog/version discipline if used by the team
+- optional gated merges for protected branches
+
+Branch/ Merge quality Expectations:
+- changes should be revieable in small prs
+- every pr should be scoped and intentional
+- feature work should not sneak in unrelated refactos
+- ci failures block merge readiness
+==============
+Build / bootstrap / App Composition
+The app folder should remain thin and compositional
+
+app/bootstrap.dart
+ - app startup sequence
+- environment/bootstrap wiring
+- top-level initialization
+
+app/di.dart
+- dependency registration
+- module wiring
+- feature registration if needed
+
+app/router.dart
+- route table /navigation composition
+- guard wiring if needed
+
+app/app.dart
+- root app widget
+- theme, l10n, router integration
+
+RUles:
+- keep app compositione xplicit
+- avoid hidden bootstrap side effects
+- avoid mixing feature logic into top-level app wiring 
+
+Design System Should own:
+- spacing scale
+- typography scale
+- colors/tokens/themes
+- common buttons/fields/cardss/surfaces
+- loading/empty/error/retry states
+- accessibility-minded reusable widgets. 
+
+Rules:
+- prefer design system components over ad-hoc ui duplication
+- repeated loading and error patterns hsould converge into reusable primitives
+- feature widgets should compose from the design system where practical 
+
+Feature Flags / Safe Rollout
+ Feature Flags are an engineering tool, not a dumping ground. 
+Use them when they help with:
+- staged rollout
+- kill switches
+- enviroment-specific enablement
+- high risk feature isolation
+
+Rules:
+- feature flag ownership must be clear
+- stale flags should be removed
+- flags should not permanently replace clean architecture decisions 
+
+Anti-patterns to avoid:
+Avoid the following:
+- layer-first global sprawl across the whole project
+- feature internals imported by other features
+- utils dumping grounds
+- DTOs leaking into ui/domain
+- no offline/persistence stragy for data-heavy features
+- new abstractions without team/product value
+- cubits with infrastructure/persistence converns embedded in them
+- repository methods without consistens logging/error behavior
+- shared code that is not actually shared
+- app-level files turning into a second business layer
+============
+Final rule: 
+this projectshould feel like a serious product codebase not a collection of screens:
+That meanse:
+- clear module ownership
+- explicit boundaries
+- disciplined layering
+- reliable testability
+- meaningful CI/CD
+- offline/persistence decisions made consciously
+- release-readiness treated as a feature, not a finishing touch. 
+
+One line Summary:
+Build this repository as a feature-first, cubit-driven, clean-architecture-inspired, release-ready Flutter product with real module boundaries, strong ci/testing discipline, offline/persistence awareness and long-term maintainability as a first class requirement.
+
+
