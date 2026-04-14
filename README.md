@@ -1,6 +1,6 @@
-# Sonrize Padel
+# Sonrize Clean Project Flutter Starter
 
-A Padel court booking and management application built with Clean Architecture principles, featuring feature-first structure and TDD methodology.
+A production-ready Flutter starter template with Clean Architecture, feature-first organization, and comprehensive tooling. Perfect as a foundation for any Flutter project.
 
 ## Features
 
@@ -10,10 +10,11 @@ A Padel court booking and management application built with Clean Architecture p
 - 🧪 TDD development methodology
 - 📦 Offline-first persistence strategy
 - 🚀 CI/CD ready with Codemagic
+- 📋 Starter template with reusable core modules
 
 ## Architecture
 
-This project follows **Clean Architecture** principles with a **feature-first** approach:
+This starter template follows **Clean Architecture** principles with a **feature-first** approach:
 
 ```
 lib/
@@ -64,10 +65,10 @@ lib/
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-org/sonrize_padel.git
+git clone https://github.com/Soner-Sen/sonrize-clean-project-flutter-starter.git
 
 # Navigate to project
-cd sonrize_padel
+cd sonrize-clean-project-flutter-starter
 
 # Install dependencies
 flutter pub get
@@ -112,7 +113,7 @@ This project uses Codemagic for CI/CD pipeline:
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our development workflow.
+This is a starter template - feel free to customize and extend for your specific project needs.
 
 ## License
 
