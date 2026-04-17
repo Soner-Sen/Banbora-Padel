@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sonrize_padel/core/analytics/analytics.dart';
+import 'package:sonrize_padel/features/auth/domain/entities/guest_user.dart';
 import 'package:sonrize_padel/features/auth/domain/usecases/get_current_user_usecase.dart';
 import 'package:sonrize_padel/features/auth/domain/usecases/login_usecase.dart';
 import 'package:sonrize_padel/features/auth/domain/usecases/logout_usecase.dart';
@@ -30,16 +31,36 @@ class AuthCubit extends Cubit<AuthState> {
 
     final result = await _getCurrentUserUseCase();
 
-    result.fold(
-      (failure) {
-        emit(const AuthUnauthenticated());
-        _logAuthEvent(AnalyticsEvents.authLogout, success: true);
-      },
-      (user) {
-        emit(AuthAuthenticated(user: user));
-        _logAuthEvent(AnalyticsEvents.authLoginSuccess, success: true);
-      },
+    await result.fold((failure) => _checkForGuestSession(), (user) {
+      emit(AuthAuthenticated(user: user));
+      _logAuthEvent(AnalyticsEvents.authLoginSuccess, success: true);
+    });
+  }
+
+  Future<void> _checkForGuestSession() async {
+    // TODO: Check local storage for existing guest session
+    // For now, emit unauthenticated (allows guest flow)
+    emit(const AuthUnauthenticated());
+  }
+
+  void loginAsGuest({required String displayName, int? avatarColor}) {
+    final guestUser = GuestUser(
+      id: _generateGuestId(),
+      displayName: displayName,
+      avatarColor: avatarColor,
     );
+    emit(AuthGuest(guestUser: guestUser));
+    _logAuthEvent('guest_login', success: true);
+  }
+
+  void updateGuestName({required String displayName}) {
+    final currentState = state;
+    if (currentState is AuthGuest) {
+      final updatedGuest = currentState.guestUser.copyWith(
+        displayName: displayName,
+      );
+      emit(AuthGuest(guestUser: updatedGuest));
+    }
   }
 
   Future<void> login({required String email, required String password}) async {
@@ -107,12 +128,8 @@ class AuthCubit extends Cubit<AuthState> {
     final result = await _logoutUseCase();
 
     result.fold(
-      (failure) {
-        emit(const AuthUnauthenticated());
-      },
-      (_) {
-        emit(const AuthUnauthenticated());
-      },
+      (failure) => emit(const AuthUnauthenticated()),
+      (_) => emit(const AuthUnauthenticated()),
     );
 
     _logAuthEvent(AnalyticsEvents.authLogout, success: true);
@@ -134,6 +151,8 @@ class AuthCubit extends Cubit<AuthState> {
 
     result.fold((_) {}, (user) => emit(AuthAuthenticated(user: user)));
   }
+
+  String _generateGuestId() => 'guest_${DateTime.now().millisecondsSinceEpoch}';
 
   void _logAuthEvent(String eventName, {required bool success}) {
     _analyticsService.logEvent(

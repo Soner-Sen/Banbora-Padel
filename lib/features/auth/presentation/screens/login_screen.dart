@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sonrize_padel/core/design_system/design_system.dart';
+import 'package:sonrize_padel/core/design_system/app_widgets.dart';
 import 'package:sonrize_padel/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:sonrize_padel/features/auth/presentation/cubit/auth_state.dart';
 
@@ -133,7 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     label: 'Sign In',
                     onPressed: isLoading ? null : _handleLogin,
                     isLoading: isLoading,
-                    isFullWidth: true,
+                    fullWidth: true,
                   ),
                   const SizedBox(height: DesignTokens.spacing16),
 

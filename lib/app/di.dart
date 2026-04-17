@@ -18,6 +18,7 @@ import '../features/auth/domain/usecases/login_usecase.dart';
 import '../features/auth/domain/usecases/logout_usecase.dart';
 import '../features/auth/domain/usecases/register_usecase.dart';
 import '../features/auth/presentation/cubit/auth_cubit.dart';
+// The orbit feature is not yet fully implemented - orbit_cubit import deferred
 
 final GetIt sl = GetIt.instance;
 

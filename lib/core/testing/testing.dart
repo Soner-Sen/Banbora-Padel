@@ -58,10 +58,8 @@ class WidgetTestHelpers {
   static Widget buildTestableWidget({
     required Widget widget,
     List<dynamic> providers = const [],
-  }) {
-    // Return widget directly - actual test wrappers should be in feature tests
-    return widget;
-  }
+  }) =>
+      widget;
 
   /// Finds a widget by key.
   static Finder findByKey(Key key) => find.byKey(key);

@@ -71,6 +71,7 @@ extension ResultTransform<E> on Either<Failure, E> {
   bool get isFailure => isLeft();
 }
 
+// ignore: unintended_html_in_doc_comment
 /// Helper to safely execute a function and return Either<Failure, T>.
 ///
 /// Example:

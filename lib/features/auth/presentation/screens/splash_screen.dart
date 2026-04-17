@@ -36,9 +36,9 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) => BlocListener<AuthCubit, AuthState>(
     listener: (context, state) {
       if (state is AuthAuthenticated) {
-        context.go('/home');
+        context.go('/welcome');
       } else if (state is AuthUnauthenticated) {
-        context.go('/login');
+        context.go('/welcome');
       }
     },
     child: Scaffold(

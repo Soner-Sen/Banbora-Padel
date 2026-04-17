@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../core/design_system/design_system.dart';
+import '../core/design_system/app_theme.dart';
 import '../core/logging/logging.dart';
 import '../features/auth/presentation/cubit/auth_cubit.dart';
 import 'di.dart';
@@ -41,9 +42,9 @@ class _SonrizeAppState extends State<SonrizeApp> {
       title: 'Sonrize Padel',
       debugShowCheckedModeBanner: false,
 
-      theme: createAppTheme(isDark: false),
-      darkTheme: createAppTheme(isDark: true),
-      themeMode: ThemeMode.system,
+      theme: buildAppTheme(),
+      darkTheme: buildAppTheme(),
+      themeMode: ThemeMode.dark,
 
       routerConfig: _appRouter.router,
 
@@ -79,7 +80,7 @@ void showAppSnackBar(
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       content: Text(message),
-      backgroundColor: isError ? DesignTokens.error : DesignTokens.primary,
+      backgroundColor: isError ? AppColors.error : AppColors.primary,
       behavior: SnackBarBehavior.floating,
       duration: duration ?? const Duration(seconds: 3),
     ),

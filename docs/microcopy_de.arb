@@ -1,0 +1,147 @@
+{
+  "@@locale": "de",
+  "@@author": "Sonrize Padel Design Team",
+
+  "app_tagline": "Spontane Padel-Sessions. Schnell. Fair. Ohne Login.",
+  "app_claim": "Dein Court-Remote für spontane Padel-Sessions",
+
+  "button_orbit_starten": "Orbit starten",
+  "button_session_beitreten": "Session beitreten",
+  "button_classic_spielen": "Classic spielen",
+  "button_runde_starten": "Runde starten",
+  "button_naechste_runde_starten": "Nächste Runde starten",
+  "button_gast_hinzufuegen": "Gast hinzufügen",
+  "button_teilen": "Teilen",
+  "button_zurueck": "Zurück",
+  "button_fertig": "Fertig",
+  "button_abbrechen": "Abbrechen",
+  "button_speichern": "Speichern",
+  "button_undo": "Rückgängig",
+  "button_punkt_hinzufuegen": "Punkt hinzufügen",
+
+  "label_orbit": "Orbit",
+  "label_classic": "Classic",
+  "label_chaos": "Chaos Rally",
+  "label_team_a": "Team A",
+  "label_team_b": "Team B",
+  "label_runde": "Runde",
+  "label_punkte": "Punkte",
+  "label_sieg": "Sieg",
+  "label_spieler": "Spieler",
+  "label_wartet": "Wartet",
+  "label_bereit": "Bereit",
+  "label_auf_dem_court": "Auf dem Court",
+  "label_naechste_runde": "Nächste Runde",
+  "label_warteliste": "Warteliste",
+  "label_bench": "Bank",
+  "label_serve": "Serve",
+  "label_return": "Return",
+  "label_leaderboard": "Leaderboard",
+  "label_session": "Session",
+  "label_erstellt": "Erstellt",
+
+  "label_zielpunkte": "Zielpunkte",
+  "label_fairness": "Fairness",
+  "label_locker": "Locker",
+  "label_normal": "Normal",
+  "label_strikt": "Strikt",
+
+  "hint_name_eingeben": "Name eingeben",
+  "hint_code_eingeben": "Code eingeben",
+  "hint_suche_nach_spieler": "Nach Spieler suchen...",
+
+  "placeholder_gast_name": "Gast",
+  "placeholder_code": "7K4P",
+
+  "error_zu_wenig_spieler": "Mindestens 4 Spieler werden benötigt",
+  "error_session_nicht_gefunden": "Session nicht gefunden",
+  "error_verbindung_verloren": "Verbindung verloren",
+  "error_host_nicht_verfuegbar": "Host nicht erreichbar",
+  "error_unerwarteter_fehler": "Ein Fehler ist aufgetreten",
+
+  "success_punkt_team_a": "Punkt für Team A",
+  "success_punkt_team_b": "Punkt für Team B",
+  "success_runde_beendet": "Runde beendet",
+  "success_punkt_rueckgaengig": "Punkt rückgängig gemacht",
+  "success_spieler_hinzugefuegt": "Spieler hinzugefügt",
+  "success_session_gestartet": "Session gestartet",
+
+  "info_noch_x_spieler_bis_runde": "Noch {count} Spieler bis zur ersten Runde",
+  "@info_noch_x_spieler_bis_runde": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "info_runde_wird_berechnet": "Nächste Runde wird berechnet…",
+  "info_spieler_kurzfristig_weg": "Spieler kurzfristig weg?",
+  "info_host_bleibt_aktiv": "Der Host bleibt aktiv.",
+  "info_session_lokal_weiterfuehren": "Session lokal weiterführen?",
+  "info_neue_partnerkombination": "Neue Partnerkombination",
+  "info_bench_fair_ausgeglichen": "Bench fair ausgeglichen",
+  "info_direktes_rematch_vermieden": "Direktes Rematch vermieden",
+  "info_serve_von_rechts": "Serviert von rechts",
+  "info_serve_von_links": "Serviert von links",
+
+  "tooltip_why_this_pairing": "Warum diese Paarung?",
+  "tooltip_undo": "Letzten Punkt rückgängig machen",
+  "tooltip_settings": "Einstellungen",
+  "tooltip_more": "Mehr",
+  "tooltip_qr_code": "QR-Code scannen",
+  "tooltip_spieler_entfernen": "Spieler entfernen",
+  "tooltip_session_beenden": "Session beenden",
+
+  "empty_noch_keine_spieler": "Warte auf Spieler...",
+  "empty_keine_session": "Keine aktive Session",
+  "empty_qr_code_bereit": "QR-Code bereit zum Scannen",
+
+  "confirm_spieler_entfernen": "Spieler wirklich entfernen?",
+  "confirm_session_beenden": "Session wirklich beenden?",
+  "confirm_zurueck_zur_startseite": "Zurück zur Startseite?",
+
+  "rule_min_4_spieler": "Mindestens 4 Spieler für Orbit",
+  "rule_max_10_spieler": "Maximal 10 Spieler empfohlen",
+  "rule_punktziel_erreicht": "Punktziel erreicht",
+
+  "accessibility_team_a_punkt": "Team A, Punkt hinzufügen",
+  "accessibility_team_b_punkt": "Team B, Punkt hinzufügen",
+  "accessibility_serviert": "{name} serviert von {seite}",
+  "@accessibility_serviert": {
+    "placeholders": {
+      "name": {"type": "String"},
+      "seite": {"type": "String"}
+    }
+  },
+  "accessibility_wartet_auf_bank": "{name} wartet auf der Bank",
+  "@accessibility_wartet_auf_bank": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "accessibility_naechste_runde": "Nächste Runde: {teamA} gegen {teamB}",
+  "@accessibility_naechste_runde": {
+    "placeholders": {
+      "teamA": {"type": "String"},
+      "teamB": {"type": "String"}
+    }
+  },
+
+  "nav_home": "Start",
+  "nav_rules": "Regeln",
+  "nav_help": "Hilfe",
+  "nav_settings": "Einstellungen",
+
+  "session_share_title": "Session teilen",
+  "session_share_description": "Scanne den QR-Code oder gib den Code ein",
+  "session_code_label": "Code",
+  "session_lobby_title": "Orbit Session",
+  "session_lobby_join_hint": "Spieler können jetzt beitreten",
+
+  "how_orbit_works_title": "Wie Orbit funktioniert",
+  "how_orbit_works_step_1": "1. Session erstellen oder beitreten",
+  "how_orbit_works_step_2": "2. Spieler sammeln (mindestens 4)",
+  "how_orbit_works_step_3": "3. Runde starten",
+  "how_orbit_works_step_4": "4. Punkte zählen und rotieren",
+  "how_orbit_works_fairness": "Orbit berechnet faire Paarungen automatisch"
+}

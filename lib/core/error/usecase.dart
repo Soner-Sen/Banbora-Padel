@@ -2,12 +2,13 @@ import 'package:dartz/dartz.dart';
 
 import 'failures.dart';
 
-abstract class UseCase<Type, Return> {
+abstract class UseCase<T, Return> {
   /// Executes this use case with the given input.
   ///
+  // ignore: unintended_html_in_doc_comment
   /// Returns Either<Failure, Return> to represent success or failure.
   /// Override this in your use case implementation.
-  Future<Either<Failure, Return>> call(Type input);
+  Future<Either<Failure, Return>> call(T input);
 }
 
 /// Base class for use cases that don't require input.
@@ -21,17 +22,17 @@ abstract class NoParamsUseCase<Return> {
 /// Base class for use cases that stream results.
 ///
 /// Use this for real-time updates like notifications or live data.
-abstract class StreamUseCase<Type, Return> {
+abstract class StreamUseCase<T, Return> {
   /// Returns a stream of results.
-  Stream<Either<Failure, Return>> call(Type input);
+  Stream<Either<Failure, Return>> call(T input);
 }
 
 /// Base class for use cases that return immediately (synchronous).
 ///
 /// Use this for simple computations that don't need async.
-abstract class SyncUseCase<Type, Return> {
+abstract class SyncUseCase<T, Return> {
   /// Executes synchronously and returns the result.
-  Either<Failure, Return> call(Type input);
+  Either<Failure, Return> call(T input);
 }
 
 /// Input wrapper for use cases with multiple parameters.
@@ -47,22 +48,22 @@ abstract class SyncUseCase<Type, Return> {
 ///   const LoginInput({required this.email, required this.password});
 /// }
 /// ```
-class UseCaseInput<Type> {
+class UseCaseInput<T> {
   const UseCaseInput(this.value);
-  final Type value;
+  final T value;
 }
 
 /// Extension to convert values to UseCaseInput.
-extension UseCaseInputX<Type> on Type {
+extension UseCaseInputX<T> on T {
   /// Wraps this value in a UseCaseInput.
-  UseCaseInput<Type> toInput() => UseCaseInput(this);
+  UseCaseInput<T> toInput() => UseCaseInput(this);
 }
 
-mixin CancellableUseCase<Type, Return> on UseCase<Type, Return> {
+mixin CancellableUseCase<T, Return> on UseCase<T, Return> {
   void cancel();
 }
 
-mixin RetryableUseCase<Type, Return> on UseCase<Type, Return> {
+mixin RetryableUseCase<T, Return> on UseCase<T, Return> {
   int get maxRetries => 3;
 
   int get retryDelayMs => 1000;

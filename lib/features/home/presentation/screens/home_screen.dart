@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sonrize_padel/core/design_system/design_system.dart';
+import 'package:sonrize_padel/core/design_system/app_widgets.dart';
 import 'package:sonrize_padel/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:sonrize_padel/features/auth/presentation/cubit/auth_state.dart';
 
@@ -206,7 +207,7 @@ class HomeScreen extends StatelessWidget {
           padding: const EdgeInsets.all(DesignTokens.spacing12),
           decoration: BoxDecoration(
             color: color.withValues(alpha: 0.1),
-            borderRadius: DesignTokens.borderRadius8,
+            borderRadius: BorderRadius.circular(AppRadius.sm),
           ),
           child: Icon(icon, color: color, size: 28),
         ),
@@ -341,9 +342,9 @@ class HomeScreen extends StatelessWidget {
       children: [
         Container(
           padding: const EdgeInsets.all(DesignTokens.spacing8),
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             color: DesignTokens.surfaceVariant,
-            borderRadius: DesignTokens.borderRadius8,
+            borderRadius: BorderRadius.circular(AppRadius.sm),
           ),
           child: Icon(icon, size: 20, color: DesignTokens.textSecondary),
         ),

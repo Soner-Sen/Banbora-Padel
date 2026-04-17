@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sonrize_padel/features/auth/presentation/cubit/auth_state.dart';
 
 import '../../../../core/design_system/design_system.dart';
+import '../../../../core/design_system/app_widgets.dart';
 import '../cubit/auth_cubit.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -186,7 +187,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     label: 'Create Account',
                     onPressed: isLoading ? null : _handleRegister,
                     isLoading: isLoading,
-                    isFullWidth: true,
+                    fullWidth: true,
                   ),
                   const SizedBox(height: DesignTokens.spacing16),
 

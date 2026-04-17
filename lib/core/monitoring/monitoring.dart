@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 class ErrorReport {
   ErrorReport({
     required this.id,
@@ -206,15 +208,15 @@ class MonitoringService implements IMonitoringService {
   ) {
     // Development logging - remove in production
     assert(() {
-      print('[$level] $error');
+      debugPrint('[$level] $error');
       if (reason != null) {
-        print('Reason: $reason');
+        debugPrint('Reason: $reason');
       }
       if (stackTrace != null) {
-        print('StackTrace: $stackTrace');
+        debugPrint('StackTrace: $stackTrace');
       }
       if (context != null) {
-        print('Context: $context');
+        debugPrint('Context: $context');
       }
       return true;
     }());

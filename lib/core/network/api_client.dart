@@ -116,7 +116,8 @@ class ApiClient {
   final Dio _dio;
   final INetworkInfo _networkInfo;
   final void Function(String, String)? onTokenRefresh;
-  final void Function(RequestOptions, Response?)? onError;
+  // ignore: strict_raw_type
+  final void Function(RequestOptions, Response<dynamic>?)? onError;
 
   void _setupInterceptors() {
     _dio.interceptors.addAll([
@@ -147,12 +148,11 @@ class ApiClient {
         responseHeader: true,
         responseBody: true,
         error: true,
-        logPrint: (obj) => print('[API] $obj'),
       ),
     ]);
   }
 
-  Future<Response> _retryRequest(RequestOptions requestOptions) async {
+  Future<Response<dynamic>> _retryRequest(RequestOptions requestOptions) async {
     final options = Options(
       method: requestOptions.method,
       headers: requestOptions.headers,

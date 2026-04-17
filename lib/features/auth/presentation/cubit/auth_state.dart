@@ -1,14 +1,19 @@
 import 'package:equatable/equatable.dart';
 
 import '../../../../core/error/error.dart';
+import '../../domain/entities/guest_user.dart';
 import '../../domain/entities/user.dart';
 
 abstract class AuthState extends Equatable {
   const AuthState();
 
-  bool get isAuthenticated => this is AuthAuthenticated;
+  bool get isAuthenticated => this is AuthAuthenticated || this is AuthGuest;
+
+  bool get isGuest => this is AuthGuest;
 
   User? get user => null;
+
+  GuestUser? get guestUser => null;
 
   String? get errorMessage => null;
 
@@ -35,6 +40,15 @@ class AuthAuthenticated extends AuthState {
 
   @override
   List<Object?> get props => [user];
+}
+
+class AuthGuest extends AuthState {
+  const AuthGuest({required this.guestUser});
+  @override
+  final GuestUser guestUser;
+
+  @override
+  List<Object?> get props => [guestUser];
 }
 
 class AuthUnauthenticated extends AuthState {

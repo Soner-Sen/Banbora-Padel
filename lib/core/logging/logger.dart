@@ -106,7 +106,7 @@ class AppLoggerImpl implements AppLogger {
            logger ??
            logger_pkg.Logger(
              level: isDevelopment
-                 ? logger_pkg.Level.verbose
+                 ? logger_pkg.Level.trace
                  : logger_pkg.Level.warning,
              printer: logger_pkg.PrettyPrinter(
                methodCount: isDevelopment ? 3 : 0,
@@ -114,7 +114,7 @@ class AppLoggerImpl implements AppLogger {
                lineLength: 120,
                colors: isDevelopment,
                printEmojis: isDevelopment,
-               printTime: true,
+               dateTimeFormat: logger_pkg.DateTimeFormat.onlyTimeAndSinceStart,
              ),
            ),
        _module = module,
@@ -213,12 +213,12 @@ class AppLoggerImpl implements AppLogger {
     final formattedMessage = '[$logModule] $message';
 
     final pkgLevel = switch (level) {
-      LogLevel.verbose => logger_pkg.Level.verbose,
+      LogLevel.verbose => logger_pkg.Level.trace,
       LogLevel.debug => logger_pkg.Level.debug,
       LogLevel.info => logger_pkg.Level.info,
       LogLevel.warning => logger_pkg.Level.warning,
       LogLevel.error => logger_pkg.Level.error,
-      LogLevel.fatal => logger_pkg.Level.wtf,
+      LogLevel.fatal => logger_pkg.Level.fatal,
     };
 
     if (error != null || stackTrace != null) {

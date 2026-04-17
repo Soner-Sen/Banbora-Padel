@@ -7,6 +7,9 @@ import '../features/auth/presentation/screens/login_screen.dart';
 import '../features/auth/presentation/screens/register_screen.dart';
 import '../features/auth/presentation/screens/splash_screen.dart';
 import '../features/home/presentation/screens/home_screen.dart';
+import '../features/home/presentation/screens/welcome_screen.dart';
+import '../features/session/presentation/screens/session_create_screen.dart';
+import '../features/session/presentation/screens/session_join_screen.dart';
 
 class AppRouter {
   AppRouter({required AuthCubit authCubit, AppLogger? logger})
@@ -29,22 +32,18 @@ class AppRouter {
   String? _handleRedirect(BuildContext context, GoRouterState state) {
     final authState = _authCubit.state;
 
-    final publicRoutes = ['/splash', '/login', '/register', '/forgot-password'];
-
-    final isPublicRoute = publicRoutes.contains(state.matchedLocation);
-
     if (state.matchedLocation == '/splash') {
       return null;
     }
 
-    if (!authState.isAuthenticated && !isPublicRoute) {
-      _logger.debug('Redirecting to login from ${state.matchedLocation}');
-      return '/login';
-    }
-
-    if (authState.isAuthenticated && isPublicRoute) {
-      _logger.debug('Redirecting to home from ${state.matchedLocation}');
-      return '/home';
+    // Account routes (login/register) - only for unauthenticated users
+    if (authState.isAuthenticated &&
+        (state.matchedLocation == '/login' ||
+            state.matchedLocation == '/register')) {
+      _logger.debug(
+        'Already authenticated, redirecting from auth route to welcome',
+      );
+      return '/welcome';
     }
 
     return null;
@@ -57,6 +56,33 @@ class AppRouter {
       builder: (context, state) => const SplashScreen(),
     ),
 
+    // Welcome screen - new entry point without login
+    GoRoute(
+      path: '/welcome',
+      name: 'welcome',
+      builder: (context, state) => const WelcomeScreen(),
+    ),
+
+    // Session routes
+    GoRoute(
+      path: '/session/create',
+      name: 'sessionCreate',
+      builder: (context, state) => const SessionCreateScreen(),
+    ),
+    GoRoute(
+      path: '/session/join',
+      name: 'sessionJoin',
+      builder: (context, state) => const SessionJoinScreen(),
+    ),
+
+    // Classic rules
+    GoRoute(
+      path: '/classic-rules',
+      name: 'classicRules',
+      builder: (context, state) => const ClassicRulesScreen(),
+    ),
+
+    // Auth routes
     GoRoute(
       path: '/login',
       name: 'login',
@@ -68,6 +94,7 @@ class AppRouter {
       builder: (context, state) => const RegisterScreen(),
     ),
 
+    // Home screen - still available for logged-in users
     GoRoute(
       path: '/home',
       name: 'home',
@@ -96,8 +123,8 @@ class AppRouter {
             ),
             const SizedBox(height: 24),
             ElevatedButton(
-              onPressed: () => context.go('/home'),
-              child: const Text('Go Home'),
+              onPressed: () => context.go('/welcome'),
+              child: const Text('Go Welcome'),
             ),
           ],
         ),
@@ -124,9 +151,12 @@ class AppRoutes {
   AppRoutes._();
 
   static const String splash = '/splash';
+  static const String welcome = '/welcome';
   static const String login = '/login';
   static const String register = '/register';
   static const String home = '/home';
+  static const String sessionCreate = '/session/create';
+  static const String sessionJoin = '/session/join';
 }
 
 extension NavigationExtension on BuildContext {

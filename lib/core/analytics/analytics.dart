@@ -72,6 +72,7 @@ abstract class IAnalyticsService {
 class AnalyticsService implements IAnalyticsService {
   AnalyticsService({bool isEnabled = true}) : _isEnabled = isEnabled;
   final bool _isEnabled;
+  // ignore: unused_field
   String? _userId;
 
   @override
@@ -154,8 +155,10 @@ class AnalyticsService implements IAnalyticsService {
 
   void _logToConsole(AnalyticsEvent event) {
     assert(() {
+      // ignore: avoid_print
       print('[Analytics] Event: ${event.name}');
       if (event.parameters != null) {
+        // ignore: avoid_print
         print('[Analytics] Parameters: ${event.parameters}');
       }
       return true;
@@ -164,8 +167,10 @@ class AnalyticsService implements IAnalyticsService {
 
   void _logScreenViewToConsole(ScreenViewEvent event) {
     assert(() {
+      // ignore: avoid_print
       print('[Analytics] Screen: ${event.screenName}');
       if (event.screenClass != null) {
+        // ignore: avoid_print
         print('[Analytics] Class: ${event.screenClass}');
       }
       return true;
