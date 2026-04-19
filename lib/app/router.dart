@@ -7,7 +7,7 @@ import '../features/auth/presentation/screens/login_screen.dart';
 import '../features/auth/presentation/screens/register_screen.dart';
 import '../features/auth/presentation/screens/splash_screen.dart';
 import '../features/home/presentation/screens/home_screen.dart';
-import '../features/home/presentation/screens/welcome_screen.dart';
+import '../features/home/presentation/screens/mode_selection_screen.dart';
 import '../features/session/presentation/screens/session_create_screen.dart';
 import '../features/session/presentation/screens/session_join_screen.dart';
 
@@ -36,7 +36,6 @@ class AppRouter {
       return null;
     }
 
-    // Account routes (login/register) - only for unauthenticated users
     if (authState.isAuthenticated &&
         (state.matchedLocation == '/login' ||
             state.matchedLocation == '/register')) {
@@ -56,14 +55,12 @@ class AppRouter {
       builder: (context, state) => const SplashScreen(),
     ),
 
-    // Welcome screen - new entry point without login
     GoRoute(
       path: '/welcome',
       name: 'welcome',
-      builder: (context, state) => const WelcomeScreen(),
+      builder: (context, state) => const ModeSelectionScreen(),
     ),
 
-    // Session routes
     GoRoute(
       path: '/session/create',
       name: 'sessionCreate',
@@ -75,14 +72,12 @@ class AppRouter {
       builder: (context, state) => const SessionJoinScreen(),
     ),
 
-    // Classic rules
     GoRoute(
       path: '/classic-rules',
       name: 'classicRules',
       builder: (context, state) => const ClassicRulesScreen(),
     ),
 
-    // Auth routes
     GoRoute(
       path: '/login',
       name: 'login',
@@ -94,7 +89,6 @@ class AppRouter {
       builder: (context, state) => const RegisterScreen(),
     ),
 
-    // Home screen - still available for logged-in users
     GoRoute(
       path: '/home',
       name: 'home',

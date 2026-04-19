@@ -6,12 +6,12 @@ import 'orbit_session_state.dart';
 
 class OrbitSessionCubit extends Cubit<OrbitSessionState> {
   OrbitSessionCubit({
-    RotationAlgorithm? rotationAlgorithm,
+    FairRotationAlgorithm? rotationAlgorithm,
     ScoreEngine? scoreEngine,
-  }) : _rotationAlgorithm = rotationAlgorithm ?? RotationAlgorithm(),
+  }) : _rotationAlgorithm = rotationAlgorithm ?? FairRotationAlgorithm(),
        _scoreEngine = scoreEngine ?? ScoreEngine(),
        super(const OrbitSessionState());
-  final RotationAlgorithm _rotationAlgorithm;
+  final FairRotationAlgorithm _rotationAlgorithm;
   final ScoreEngine _scoreEngine;
 
   String _generateSessionId() {

@@ -20,15 +20,29 @@ class AppCard extends StatelessWidget {
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisSize: MainAxisSize.min,
     children: [
-      Container(
-        margin: margin,
-        padding: padding ?? const EdgeInsets.all(AppSpacing.md),
-        decoration: BoxDecoration(
-          color: AppColors.surface,
-          borderRadius: BorderRadius.circular(AppRadius.lg),
-        ),
-        child: child,
-      ),
+      onTap != null
+          ? InkWell(
+              onTap: onTap,
+              borderRadius: BorderRadius.circular(AppRadius.lg),
+              child: Container(
+                margin: margin,
+                padding: padding ?? const EdgeInsets.all(AppSpacing.md),
+                decoration: BoxDecoration(
+                  color: AppColors.surface,
+                  borderRadius: BorderRadius.circular(AppRadius.lg),
+                ),
+                child: child,
+              ),
+            )
+          : Container(
+              margin: margin,
+              padding: padding ?? const EdgeInsets.all(AppSpacing.md),
+              decoration: BoxDecoration(
+                color: AppColors.surface,
+                borderRadius: BorderRadius.circular(AppRadius.lg),
+              ),
+              child: child,
+            ),
     ],
   );
 }

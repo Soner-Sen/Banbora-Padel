@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sonrize_padel/core/design_system/design_system.dart';
 import '../../domain/entities/entities.dart';
 import 'player_avatar_widget.dart';
 
@@ -26,17 +27,17 @@ class CourtViewWidget extends StatelessWidget {
 
   Widget _buildCourt(BuildContext context) => Container(
     width: double.infinity,
-    height: 300,
+    height: AppSpacing.xxxl * 2.5,
     decoration: BoxDecoration(
-      color: const Color(0xFF2E7D32),
-      borderRadius: BorderRadius.circular(12),
-      border: Border.all(color: Colors.white, width: 2),
+      color: AppColors.courtBase,
+      borderRadius: BorderRadius.circular(AppRadius.lg),
+      border: Border.all(color: AppColors.courtLine, width: 2),
     ),
     child: Stack(children: [_buildCourtLines(), _buildNet(), _buildPlayers()]),
   );
 
   Widget _buildCourtLines() => CustomPaint(
-    size: const Size(double.infinity, 300),
+    size: const Size(double.infinity, AppSpacing.xxxl * 2.5),
     painter: _CourtLinesPainter(),
   );
 
@@ -44,7 +45,7 @@ class CourtViewWidget extends StatelessWidget {
     top: 148,
     left: 0,
     right: 0,
-    child: Container(height: 4, color: Colors.white),
+    child: Container(height: 4, color: AppColors.courtLine),
   );
 
   Widget _buildPlayers() {
@@ -112,17 +113,17 @@ class CourtViewWidget extends StatelessWidget {
           label: '+1',
           teamName: 'Team A',
           score: round.score.teamAPoints,
-          color: const Color(0xFF1E88E5),
+          color: AppColors.teamA,
           onTap: canScore ? onTeamAScore : null,
         ),
       ),
-      const SizedBox(width: 16),
+      const SizedBox(width: AppSpacing.md),
       Expanded(
         child: _ScoreButton(
           label: '+1',
           teamName: 'Team B',
           score: round.score.teamBPoints,
-          color: const Color(0xFFE53935),
+          color: AppColors.teamB,
           onTap: canScore ? onTeamBScore : null,
         ),
       ),
@@ -145,44 +146,61 @@ class _ScoreButton extends StatelessWidget {
   final VoidCallback? onTap;
 
   @override
-  Widget build(BuildContext context) => Material(
-    color: color,
-    borderRadius: BorderRadius.circular(16),
-    child: InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(16),
-      child: Container(
-        height: 100,
-        padding: const EdgeInsets.symmetric(vertical: 12),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              teamName,
-              style: const TextStyle(
-                color: Colors.white70,
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
+  Widget build(BuildContext context) => Container(
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(AppRadius.xl),
+      boxShadow: AppShadows.medium,
+    ),
+    child: Material(
+      color: color,
+      borderRadius: BorderRadius.circular(AppRadius.xl),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(AppRadius.xl),
+        splashColor: AppColors.onPrimary.withValues(alpha: 0.24),
+        child: Container(
+          height: AppSpacing.buttonHeight * 2 + AppSpacing.sm,
+          padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                teamName,
+                style: TextStyle(
+                  color: AppColors.onPrimary.withValues(alpha: 0.7),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              '$score',
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 48,
-                fontWeight: FontWeight.bold,
+              const SizedBox(height: AppSpacing.xxs),
+              Text(
+                '$score',
+                style: const TextStyle(
+                  color: AppColors.onPrimary,
+                  fontSize: 56,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            Text(
-              label,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.md,
+                  vertical: 6,
+                ),
+                decoration: BoxDecoration(
+                  color: AppColors.onPrimary.withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(AppRadius.md),
+                ),
+                child: Text(
+                  label,
+                  style: const TextStyle(
+                    color: AppColors.onPrimary,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     ),
@@ -193,7 +211,7 @@ class _CourtLinesPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.white
+      ..color = AppColors.courtLine
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2;
 

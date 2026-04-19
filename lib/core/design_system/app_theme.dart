@@ -4,16 +4,17 @@ import 'design_system.dart';
 
 ThemeData buildAppTheme() => ThemeData(
   useMaterial3: true,
-  brightness: Brightness.dark,
+  brightness: Brightness.light,
   scaffoldBackgroundColor: AppColors.canvas,
-  colorScheme: const ColorScheme.dark(
-    primary: AppColors.orbitPrimary,
-    onPrimary: AppColors.orbitOnPrimary,
-    secondary: AppColors.accentAmber,
+  colorScheme: const ColorScheme.light(
+    primary: AppColors.primary,
+    onPrimary: AppColors.onPrimary,
+    secondary: AppColors.teamB,
+    onSecondary: AppColors.onPrimary,
     surface: AppColors.surface,
     onSurface: AppColors.textPrimary,
     error: AppColors.error,
-    onError: AppColors.textPrimary,
+    onError: AppColors.onPrimary,
   ),
   appBarTheme: const AppBarTheme(
     backgroundColor: AppColors.canvas,
@@ -22,8 +23,8 @@ ThemeData buildAppTheme() => ThemeData(
     centerTitle: true,
     systemOverlayStyle: SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.light,
-      statusBarBrightness: Brightness.dark,
+      statusBarIconBrightness: Brightness.dark,
+      statusBarBrightness: Brightness.light,
     ),
     titleTextStyle: TextStyle(
       fontSize: 18,
@@ -33,45 +34,46 @@ ThemeData buildAppTheme() => ThemeData(
   ),
   cardTheme: CardThemeData(
     color: AppColors.surface,
-    elevation: AppElevation.none,
+    elevation: 0,
+    shadowColor: AppColors.primary.withValues(alpha: 0.05),
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(AppRadius.lg),
+      borderRadius: BorderRadius.circular(AppRadius.card),
     ),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      backgroundColor: AppColors.orbitPrimary,
-      foregroundColor: AppColors.orbitOnPrimary,
+      backgroundColor: AppColors.primary,
+      foregroundColor: AppColors.onPrimary,
       minimumSize: const Size.fromHeight(AppSpacing.buttonHeight),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppRadius.lg),
+        borderRadius: BorderRadius.circular(AppRadius.button),
       ),
       textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
     ),
   ),
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(
-      foregroundColor: AppColors.textPrimary,
+      foregroundColor: AppColors.primary,
       minimumSize: const Size.fromHeight(AppSpacing.buttonHeight),
-      side: BorderSide(
-        color: AppColors.orbitPrimary.withValues(alpha: 0.3),
-        width: 1,
+      side: const BorderSide(
+        color: AppColors.primary,
+        width: 1.5,
       ),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppRadius.lg),
+        borderRadius: BorderRadius.circular(AppRadius.button),
       ),
       textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
     ),
   ),
   textButtonTheme: TextButtonThemeData(
     style: TextButton.styleFrom(
-      foregroundColor: AppColors.orbitPrimary,
+      foregroundColor: AppColors.primary,
       textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
     ),
   ),
   inputDecorationTheme: InputDecorationTheme(
     filled: true,
-    fillColor: AppColors.elevated,
+    fillColor: AppColors.canvas, // "Inset" look - sits in canvas background
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(AppRadius.md),
       borderSide: BorderSide.none,
@@ -82,7 +84,7 @@ ThemeData buildAppTheme() => ThemeData(
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(AppRadius.md),
-      borderSide: const BorderSide(color: AppColors.orbitPrimary, width: 2),
+      borderSide: const BorderSide(color: AppColors.primary, width: 2),
     ),
     errorBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(AppRadius.md),
@@ -97,13 +99,13 @@ ThemeData buildAppTheme() => ThemeData(
   bottomSheetTheme: const BottomSheetThemeData(
     backgroundColor: AppColors.surface,
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadius.xl)),
+      borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadius.bottomSheet)),
     ),
   ),
   snackBarTheme: SnackBarThemeData(
-    backgroundColor: AppColors.elevated,
+    backgroundColor: AppColors.textPrimary,
     contentTextStyle: const TextStyle(
-      color: AppColors.textPrimary,
+      color: AppColors.surface,
       fontSize: 14,
     ),
     shape: RoundedRectangleBorder(
@@ -123,26 +125,26 @@ TextTheme _buildTextTheme() => const TextTheme(
   displayLarge: TextStyle(
     fontSize: 32,
     height: 1.25,
-    fontWeight: FontWeight.w700,
+    fontWeight: FontWeight.w600,
     color: AppColors.textPrimary,
     letterSpacing: -0.5,
   ),
   displayMedium: TextStyle(
     fontSize: 28,
     height: 1.29,
-    fontWeight: FontWeight.w700,
+    fontWeight: FontWeight.w600,
     color: AppColors.textPrimary,
   ),
   headlineLarge: TextStyle(
-    fontSize: 26,
-    height: 1.3,
+    fontSize: 28,
+    height: 1.30,
     fontWeight: FontWeight.w700,
     color: AppColors.textPrimary,
   ),
   headlineMedium: TextStyle(
     fontSize: 24,
     height: 1.25,
-    fontWeight: FontWeight.w700,
+    fontWeight: FontWeight.w600,
     color: AppColors.textPrimary,
   ),
   headlineSmall: TextStyle(
@@ -153,7 +155,7 @@ TextTheme _buildTextTheme() => const TextTheme(
   ),
   titleLarge: TextStyle(
     fontSize: 20,
-    height: 1.3,
+    height: 1.30,
     fontWeight: FontWeight.w600,
     color: AppColors.textPrimary,
   ),
@@ -171,14 +173,14 @@ TextTheme _buildTextTheme() => const TextTheme(
   ),
   bodyLarge: TextStyle(
     fontSize: 16,
-    height: 1.5,
+    height: 1.50,
     fontWeight: FontWeight.w400,
     color: AppColors.textPrimary,
   ),
   bodyMedium: TextStyle(
     fontSize: 14,
     height: 1.43,
-    fontWeight: FontWeight.w400,
+    fontWeight: FontWeight.w500,
     color: AppColors.textSecondary,
   ),
   bodySmall: TextStyle(
@@ -207,8 +209,9 @@ TextTheme _buildTextTheme() => const TextTheme(
   ),
 );
 
+// Score display styles - larger for sunlight readability
 const TextStyle scoreTextStyle = TextStyle(
-  fontSize: 36,
+  fontSize: 48,
   fontWeight: FontWeight.w700,
   fontFeatures: [FontFeature.tabularFigures()],
   color: AppColors.textPrimary,
@@ -216,6 +219,6 @@ const TextStyle scoreTextStyle = TextStyle(
 
 const TextStyle scoreLabelStyle = TextStyle(
   fontSize: 14,
-  fontWeight: FontWeight.w600,
+  fontWeight: FontWeight.w500,
   color: AppColors.textSecondary,
 );

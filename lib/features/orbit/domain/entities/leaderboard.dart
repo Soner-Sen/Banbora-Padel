@@ -48,8 +48,7 @@ class LeaderboardEntry {
     averagePointsPerMatch: averagePointsPerMatch ?? this.averagePointsPerMatch,
   );
 
-  int get rankingScore =>
-      (totalPoints * 100) + (roundsWon * 10) - (benchCount * 5);
+  int get rankingScore => totalPoints;
 }
 
 class Leaderboard {
